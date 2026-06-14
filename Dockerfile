@@ -10,7 +10,7 @@ RUN ocamlc \
     authority.mli \
     evidentiary.mli \
     architecture.mli \
-    runtime_simulation.ml
+    main.ml
     -o main
 
 CMD ["./main"]
