@@ -1,0 +1,25 @@
+name: Run OCaml Simulation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 4.14
+
+      - name: Install Dune
+        run: opam install dune -y
+
+      - name: Build
+        run: dune build
+
+      - name: Run
+        run: dune exec ./main.exe
