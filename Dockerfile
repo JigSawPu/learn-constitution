@@ -1,16 +1,14 @@
-FROM ocaml/opam:debian-ocaml-5.2
+# Use the official OCaml OPAM image (Debian based, OCaml 4.14)
+FROM ocaml/opam:debian-11-ocaml-4.14
 
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY . .
+# Copy all your project files into the container
+COPY --chown=opam:opam . .
 
-RUN ocamlc \
-    foundational.mli \
-    descriptive.mli \
-    authority.mli \
-    evidentiary.mli \
-    architecture.mli \
-    main.ml
-    -o main
+# Build the OCaml project using Dune
+RUN eval $(opam env) && dune build
 
-CMD ["./main"]
+# Run the simulation, then keep the container alive so Render doesn't crash it
+CMD eval $(opam env) && dune exec ./main.exe && tail -f /dev/null
